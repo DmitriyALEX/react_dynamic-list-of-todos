@@ -8,10 +8,7 @@ import { TodoFilter } from './components/TodoFilter';
 import { TodoModal } from './components/TodoModal';
 import { Loader } from './components/Loader';
 
-// import { getTodos, getUser } from './api';
-
 import { Todo } from './types/Todo';
-// import { User } from './types/User';
 
 import { useFetchData } from './hooks/useFetchData';
 import { useFetchUser } from './hooks/useFetchUser';
@@ -21,20 +18,12 @@ export const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [clickedTodoId, setClikedTodoId] = useState<number | null>(null);
+  const [clickedTodoId, setCliсkedTodoId] = useState<number | null>(null);
 
   const [userTodo, setUserTodo] = useState<Todo | null>(null);
 
-  const {
-    fetchedData,
-    // setFetchedData,
-    renderedData,
-    setRenderedData,
-    // fetchError,
-    // setFetchError,
-    isLoader,
-    // setIsLoader,
-  } = useFetchData();
+  const { fetchedData, renderedData, setRenderedData, isLoader } =
+    useFetchData();
 
   const { fetchedUser, fetchError, isUserLoader } = useFetchUser(clickedTodoId);
 
@@ -60,11 +49,13 @@ export const App: React.FC = () => {
     setSearchQuery(query);
     if (query) {
       const queryString = query.trim().toLowerCase();
-      const filtered = renderedData.filter(x =>
+      const filtered = fetchedData.filter(x =>
         x.title.toLowerCase().includes(queryString),
       );
 
       setRenderedData(filtered);
+    } else {
+      handleSelectedQuery(selectedQuery);
     }
   };
 
@@ -93,7 +84,7 @@ export const App: React.FC = () => {
                 isOpenModal={isOpenModal}
                 setIsOpenModal={setIsOpenModal}
                 clickedTodoId={clickedTodoId}
-                setClikedTodoId={setClikedTodoId}
+                setCliсkedTodoId={setCliсkedTodoId}
                 setUserTodo={setUserTodo}
               />
             </div>

@@ -7,8 +7,6 @@ export const useFetchUser = (userId: number | null) => {
   const [fetchError, setFetchError] = useState<string>('');
   const [isUserLoader, setIsUserLoader] = useState<boolean>(false);
 
-  //console.log('userId', userId);
-
   useEffect(() => {
     setIsUserLoader(true);
     if (userId) {

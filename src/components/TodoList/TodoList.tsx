@@ -6,7 +6,7 @@ type Props = {
   renderedData: Todo[];
   isOpenModal: boolean;
   setIsOpenModal: (value: boolean) => void;
-  setClikedTodoId: (value: number) => void;
+  setCliсkedTodoId: (value: number) => void;
   clickedTodoId: number | null;
   setUserTodo: (value: Todo) => void;
 };
@@ -15,7 +15,7 @@ export const TodoList: React.FC<Props> = ({
   renderedData,
   isOpenModal,
   setIsOpenModal,
-  setClikedTodoId,
+  setCliсkedTodoId,
   clickedTodoId,
   setUserTodo,
 }) => {
@@ -36,48 +36,46 @@ export const TodoList: React.FC<Props> = ({
 
       <tbody>
         {renderedData.map(todo => (
-          <>
-            <tr data-cy="todo" className="" key={todo.id}>
-              <td className="is-vcentered">{todo.id}</td>
+          <tr data-cy="todo" className="" key={todo.id}>
+            <td className="is-vcentered">{todo.id}</td>
 
-              <td className="is-vcentered">
-                {todo.completed ? (
-                  <span className="icon" data-cy="iconCompleted">
-                    <i className="fas fa-check" />
-                  </span>
-                ) : null}
-              </td>
+            <td className="is-vcentered">
+              {todo.completed ? (
+                <span className="icon" data-cy="iconCompleted">
+                  <i className="fas fa-check" />
+                </span>
+              ) : null}
+            </td>
 
-              <td className="is-vcentered is-expanded">
-                <p
-                  className={cn({
-                    'has-text-success': todo.completed,
-                    'has-text-danger': !todo.completed,
-                  })}
+            <td className="is-vcentered is-expanded">
+              <p
+                className={cn({
+                  'has-text-success': todo.completed,
+                  'has-text-danger': !todo.completed,
+                })}
+              >
+                {todo.title}
+              </p>
+            </td>
+            <td className="has-text-right is-vcentered">
+              <button data-cy="selectButton" className="button" type="button">
+                <span
+                  className="icon"
+                  onClick={() => {
+                    setIsOpenModal(true);
+                    setCliсkedTodoId(todo.id);
+                    setUserTodo(todo);
+                  }}
                 >
-                  {todo.title}
-                </p>
-              </td>
-              <td className="has-text-right is-vcentered">
-                <button data-cy="selectButton" className="button" type="button">
-                  <span
-                    className="icon"
-                    onClick={() => {
-                      setIsOpenModal(true);
-                      setClikedTodoId(todo.id);
-                      setUserTodo(todo);
-                    }}
-                  >
-                    {isOpenModal && todo.id === clickedTodoId ? (
-                      <i className="far fa-eye-slash" />
-                    ) : (
-                      <i className="far fa-eye" />
-                    )}
-                  </span>
-                </button>
-              </td>
-            </tr>
-          </>
+                  {isOpenModal && todo.id === clickedTodoId ? (
+                    <i className="far fa-eye-slash" />
+                  ) : (
+                    <i className="far fa-eye" />
+                  )}
+                </span>
+              </button>
+            </td>
+          </tr>
         ))}
       </tbody>
     </table>
