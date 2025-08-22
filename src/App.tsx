@@ -18,7 +18,7 @@ export const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [clickedTodoId, setCliсkedTodoId] = useState<number | null>(null);
+  const [clickedTodoId, setClickedTodoId] = useState<number | null>(null);
 
   const [userTodo, setUserTodo] = useState<Todo | null>(null);
 
@@ -27,38 +27,91 @@ export const App: React.FC = () => {
 
   const { fetchedUser, fetchError, isUserLoader } = useFetchUser(clickedTodoId);
 
+  const applyFilters = (status: string, query: string) => {
+    let filtered = [...fetchedData];
+
+    if (status === 'active') {
+      filtered = filtered.filter(x => !x.completed);
+    }
+
+    if (status === 'completed') {
+      filtered = filtered.filter(x => x.completed);
+    }
+
+    if (query) {
+      const queryString = query.trim().toLowerCase();
+
+      filtered = filtered.filter(x =>
+        x.title.toLowerCase().includes(queryString),
+      );
+    }
+
+    setRenderedData(filtered);
+  };
+
+  // const applyFilters = (status: string, query: string) => {
+  //   let filtered = [...fetchedData];
+
+  //   if (status === 'active') {
+  //     filtered = filtered.filter(x => !x.completed);
+  //   }
+
+  //   if (status === 'completed') {
+  //     filtered = filtered.filter(x => x.completed);
+  //   }
+
+  //   if (query) {
+  //     const queryString = query.trim().toLowerCase();
+
+  //     filtered = fetchedData.filter(x =>
+  //       x.title.toLowerCase().includes(queryString),
+  //     );
+
+  //     setRenderedData(filtered);
+  //   }
+  // };
+
   const handleSelectedQuery = (query: string) => {
     setSelectedQuery(query);
-    switch (query) {
-      case 'all':
-        return setRenderedData(fetchedData);
-      case 'active':
-        const notCompleted = fetchedData.filter(x => x.completed === false);
-
-        return setRenderedData(notCompleted);
-      case 'completed':
-        const completed = fetchedData.filter(x => x.completed === true);
-
-        return setRenderedData(completed);
-      default:
-        return 0;
-    }
+    applyFilters(query, searchQuery);
   };
 
   const handleSearchedQuery = (query: string) => {
     setSearchQuery(query);
-    if (query) {
-      const queryString = query.trim().toLowerCase();
-      const filtered = fetchedData.filter(x =>
-        x.title.toLowerCase().includes(queryString),
-      );
-
-      setRenderedData(filtered);
-    } else {
-      handleSelectedQuery(selectedQuery);
-    }
+    applyFilters(selectedQuery, query);
   };
 
+  // const handleSelectedQuery = (query: string) => {
+  //   setSelectedQuery(query);
+  //   switch (query) {
+  //     case 'all':
+  //       return setRenderedData(fetchedData);
+  //     case 'active':
+  //       const notCompleted = fetchedData.filter(x => x.completed === false);
+
+  //       return setRenderedData(notCompleted);
+  //     case 'completed':
+  //       const completed = fetchedData.filter(x => x.completed === true);
+
+  //       return setRenderedData(completed);
+  //     default:
+  //       return 0;
+  //   }
+  // };
+
+  // const handleSearchedQuery = (query: string) => {
+  //   setSearchQuery(query);
+  //   if (query) {
+  //     const queryString = query.trim().toLowerCase();
+  //     const filtered = fetchedData.filter(x =>
+  //       x.title.toLowerCase().includes(queryString),
+  //     );
+
+  //     setRenderedData(filtered);
+  //   } else {
+  //     handleSelectedQuery(selectedQuery);
+  //   }
+  // };
   return (
     <>
       <div className="section">
@@ -84,7 +137,7 @@ export const App: React.FC = () => {
                 isOpenModal={isOpenModal}
                 setIsOpenModal={setIsOpenModal}
                 clickedTodoId={clickedTodoId}
-                setCliсkedTodoId={setCliсkedTodoId}
+                setClickedTodoId={setClickedTodoId}
                 setUserTodo={setUserTodo}
               />
             </div>

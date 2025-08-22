@@ -6,7 +6,7 @@ type Props = {
   renderedData: Todo[];
   isOpenModal: boolean;
   setIsOpenModal: (value: boolean) => void;
-  setCliсkedTodoId: (value: number) => void;
+  setClickedTodoId: (value: number) => void;
   clickedTodoId: number | null;
   setUserTodo: (value: Todo) => void;
 };
@@ -15,7 +15,7 @@ export const TodoList: React.FC<Props> = ({
   renderedData,
   isOpenModal,
   setIsOpenModal,
-  setCliсkedTodoId,
+  setClickedTodoId,
   clickedTodoId,
   setUserTodo,
 }) => {
@@ -63,7 +63,7 @@ export const TodoList: React.FC<Props> = ({
                   className="icon"
                   onClick={() => {
                     setIsOpenModal(true);
-                    setCliсkedTodoId(todo.id);
+                    setClickedTodoId(todo.id);
                     setUserTodo(todo);
                   }}
                 >
